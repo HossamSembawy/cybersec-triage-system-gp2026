@@ -1,0 +1,12 @@
+# API
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.7.0
+
+# ML inference
+torch>=2.2.0
+transformers>=4.40.0
+safetensors>=0.4.0
+
+# Dev
+python-dotenv>=1.0.0
