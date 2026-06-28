@@ -42,4 +42,5 @@ desktop.ini
 *.log
 logs/
 
-.docker/
+.docker
+/models/
