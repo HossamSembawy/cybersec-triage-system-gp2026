@@ -11,6 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routes.email import router as email_router
+from src.api.routes.url import router as url_router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -41,6 +42,7 @@ def create_app() -> FastAPI:
     )
 
     app.include_router(email_router)
+    app.include_router(url_router)
 
     @app.get("/health", tags=["System"])
     async def health():
@@ -50,7 +52,7 @@ def create_app() -> FastAPI:
             "version": "0.1.0",
         }
 
-    logger.info("Application created. Registered routers: email")
+    logger.info("Application created. Registered routers: email, url")
     return app
 
 

@@ -18,6 +18,10 @@ EMAIL_MODEL_PATH = os.getenv(
     "EMAIL_MODEL_PATH", "models/email_module"
 )
 
+URL_MODEL_PATH = os.getenv(
+    "URL_MODEL_PATH", "models/url_module"
+)
+
 
 @lru_cache(maxsize=1)
 def _load_email_predictor():
@@ -42,3 +46,28 @@ def _load_email_predictor():
 def get_email_predictor():
     """FastAPI dependency — returns the cached EmailPredictor."""
     return _load_email_predictor()
+
+
+@lru_cache(maxsize=1)
+def _load_url_predictor():
+    """
+    Load the trained URLPredictor from disk.
+    Called once at startup, result is cached for all requests.
+    """
+    from src.url_module.predictor import URLPredictor
+
+    model_path = Path(URL_MODEL_PATH)
+
+    if not model_path.exists():
+        raise FileNotFoundError(
+            f"Trained model not found at: {model_path}\n"
+            f"Place url_model.joblib in models/url_module/"
+        )
+
+    logger.info("Loading trained URL model from %s", model_path)
+    return URLPredictor.from_pretrained(model_path)
+
+
+def get_url_predictor():
+    """FastAPI dependency — returns the cached URLPredictor."""
+    return _load_url_predictor()

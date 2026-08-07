@@ -44,3 +44,10 @@ logs/
 
 .docker
 /models/
+
+node_modules/
+
+latex report/
+ppt/
+
+CLAUDE.md
