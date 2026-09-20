@@ -58,6 +58,15 @@ class OrchestrationRequest(BaseModel):
         return self
 
 
+class TriageDecision(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    severity: Severity
+    evidence_summary: str = Field(min_length=1, max_length=2_000)
+    analyst_recommendation: str = Field(min_length=1, max_length=2_000)
+    contributing_modules: list[ModuleName] = Field(min_length=1, max_length=3)
+
+
 class OrchestrationResponse(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
