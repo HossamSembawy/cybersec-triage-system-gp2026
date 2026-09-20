@@ -7,10 +7,11 @@ pydantic>=2.7.0
 torch>=2.2.0
 transformers>=4.40.0
 safetensors>=0.4.0
-scikit-learn>=1.4.0
+scikit-learn==1.6.1
 xgboost>=2.0.0
 joblib>=1.3.0
 numpy>=1.26.0
 
 # Dev
 python-dotenv>=1.0.0
+pytest>=8.0.0
