@@ -65,7 +65,11 @@ class URLPredictor:
         self.label_names = label_names
         self.preprocessor = preprocessor
         self.model_version = model_version
-        logger.info("URLPredictor ready (%d classes, %s)", len(label_names), model_version)
+        logger.info(
+            "URLPredictor ready (%d classes, %s)",
+            len(label_names),
+            model_version,
+        )
 
     @classmethod
     def from_pretrained(cls, model_path: str | Path) -> "URLPredictor":

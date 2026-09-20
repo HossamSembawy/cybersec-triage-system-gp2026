@@ -23,7 +23,7 @@ router = APIRouter(
 )
 
 
-# ── Request schema ─────────────────────────────────────────────
+# Request schema
 class EmailTextRequest(BaseModel):
     text: str = Field(
         ...,
@@ -37,7 +37,7 @@ class EmailTextRequest(BaseModel):
     )
 
 
-# ── Response schema ────────────────────────────────────────────
+# Response schema
 class EmailAnalysisResponse(BaseModel):
     prediction:           str
     phishing_probability: float
@@ -47,7 +47,7 @@ class EmailAnalysisResponse(BaseModel):
     inference_latency_ms: float
 
 
-# ── Endpoints ──────────────────────────────────────────────────
+# Endpoints
 @router.post(
     "/analyze",
     response_model=EmailAnalysisResponse,
