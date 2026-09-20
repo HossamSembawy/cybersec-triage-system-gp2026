@@ -23,7 +23,7 @@ router = APIRouter(
 )
 
 
-# ── Request schema ─────────────────────────────────────────────
+# Request schema
 class UrlRequest(BaseModel):
     url: str = Field(
         ...,
@@ -36,7 +36,7 @@ class UrlRequest(BaseModel):
     )
 
 
-# ── Response schema ────────────────────────────────────────────
+# Response schema
 class UrlAnalysisResponse(BaseModel):
     prediction:            str
     malicious_probability: float
@@ -47,7 +47,7 @@ class UrlAnalysisResponse(BaseModel):
     inference_latency_ms:  float
 
 
-# ── Endpoints ──────────────────────────────────────────────────
+# Endpoints
 @router.post(
     "/analyze",
     response_model=UrlAnalysisResponse,
