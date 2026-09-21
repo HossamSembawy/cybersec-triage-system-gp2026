@@ -8,6 +8,7 @@ def test_all_detection_routes_are_registered():
     assert "/api/v1/email/analyze" in paths
     assert "/api/v1/url/analyze" in paths
     assert "/api/v1/network/analyze" in paths
+    assert "/api/v1/orchestration/analyze" in paths
 
 
 def test_network_request_example_contains_all_features():
