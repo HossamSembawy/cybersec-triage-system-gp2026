@@ -2,6 +2,7 @@ import sys
 from types import SimpleNamespace
 
 import pytest
+from fastapi import HTTPException
 
 from src.api import dependencies
 from src.orchestration.service import OrchestrationService
@@ -24,8 +25,11 @@ def clear_orchestration_service_cache():
 def test_dependency_requires_anthropic_api_key(monkeypatch):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
 
-    with pytest.raises(RuntimeError, match="ANTHROPIC_API_KEY is required"):
+    with pytest.raises(HTTPException) as error:
         dependencies.get_orchestration_service()
+
+    assert error.value.status_code == 503
+    assert error.value.detail == "Orchestration API key is not configured."
 
 
 def test_dependency_creates_cached_orchestration_service(monkeypatch):

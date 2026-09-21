@@ -103,3 +103,18 @@ def test_orchestration_route_handles_service_failure():
     assert response.json()["detail"] == (
         "Orchestration service is unavailable."
     )
+
+
+def test_orchestration_route_reports_missing_api_key(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    client = TestClient(create_app())
+
+    response = client.post(
+        "/api/v1/orchestration/analyze",
+        json={"email": EMAIL_RESULT},
+    )
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == (
+        "Orchestration API key is not configured."
+    )
