@@ -12,6 +12,8 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
+from fastapi import HTTPException, status
+
 logger = logging.getLogger(__name__)
 
 EMAIL_MODEL_PATH = os.getenv(
@@ -131,4 +133,10 @@ def _load_orchestration_service():
 
 def get_orchestration_service():
     """Return the cached orchestration service."""
-    return _load_orchestration_service()
+    try:
+        return _load_orchestration_service()
+    except RuntimeError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Orchestration API key is not configured.",
+        ) from exc
