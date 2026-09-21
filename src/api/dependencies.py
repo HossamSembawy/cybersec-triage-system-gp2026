@@ -26,6 +26,8 @@ NETWORK_MODEL_PATH = os.getenv(
     "NETWORK_MODEL_PATH", "models/network_module"
 )
 
+DEFAULT_ORCHESTRATION_MODEL = "claude-sonnet-5"
+
 
 @lru_cache(maxsize=1)
 def _load_email_predictor():
@@ -100,3 +102,33 @@ def _load_network_predictor():
 def get_network_predictor():
     """FastAPI dependency — returns the cached NetworkPredictor."""
     return _load_network_predictor()
+
+
+@lru_cache(maxsize=1)
+def _load_orchestration_service():
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError(
+            "ANTHROPIC_API_KEY is required for orchestration"
+        )
+
+    from anthropic import Anthropic
+
+    from src.orchestration.service import OrchestrationService
+
+    model_version = os.getenv(
+        "ANTHROPIC_MODEL",
+        DEFAULT_ORCHESTRATION_MODEL,
+    )
+    client = Anthropic(api_key=api_key)
+
+    logger.info("Creating orchestration service with %s", model_version)
+    return OrchestrationService(
+        client=client,
+        model_version=model_version,
+    )
+
+
+def get_orchestration_service():
+    """Return the cached orchestration service."""
+    return _load_orchestration_service()
