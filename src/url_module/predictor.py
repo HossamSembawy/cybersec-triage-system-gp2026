@@ -13,7 +13,7 @@ from pathlib import Path
 
 import joblib
 
-from src.url_module.preprocessor import URLPreprocessor
+from src.url_module.preprocessor import FEATURE_NAMES, URLPreprocessor
 
 logger = logging.getLogger(__name__)
 
@@ -92,6 +92,14 @@ class URLPredictor:
 
         logger.info("Loading model from %s", bundle_file)
         bundle = joblib.load(bundle_file)
+
+        # A reordered feature list would still load but silently mispredict.
+        if list(bundle["feature_names"]) != FEATURE_NAMES:
+            raise ValueError(
+                "Saved URL feature order does not match the serving "
+                f"preprocessor.\nSaved:   {list(bundle['feature_names'])}\n"
+                f"Serving: {FEATURE_NAMES}"
+            )
 
         return cls(
             model=bundle["model"],

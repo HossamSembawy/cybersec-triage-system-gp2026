@@ -1,10 +1,33 @@
+import joblib
+import numpy as np
 import pytest
+from sklearn.ensemble import RandomForestClassifier
 
+from src.url_module.predictor import URLPredictor
 from src.url_module.preprocessor import (
     FEATURE_NAMES,
     URLPreprocessor,
     extract_url_features,
 )
+
+LABEL_NAMES = ["benign", "defacement", "phishing", "malware"]
+
+
+def save_synthetic_bundle(directory, feature_names):
+    random_generator = np.random.default_rng(0)
+    features = random_generator.random((40, len(FEATURE_NAMES)))
+    labels = np.arange(40) % len(LABEL_NAMES)
+    model = RandomForestClassifier(n_estimators=5, random_state=0)
+    model.fit(features, labels)
+    joblib.dump(
+        {
+            "model": model,
+            "feature_names": feature_names,
+            "label_names": LABEL_NAMES,
+            "model_version": "test",
+        },
+        directory / "url_model.joblib",
+    )
 
 
 def test_extract_url_features_returns_documented_order():
@@ -45,3 +68,23 @@ def test_empty_url_is_rejected(url):
 
     with pytest.raises(ValueError, match="must not be empty"):
         preprocessor.extract_features(url)
+
+
+def test_bundle_with_matching_feature_order_loads(tmp_path):
+    save_synthetic_bundle(tmp_path, list(FEATURE_NAMES))
+
+    predictor = URLPredictor.from_pretrained(tmp_path)
+
+    assert predictor.predict("https://example.com/login").severity in {
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+    }
+
+
+def test_bundle_with_reordered_features_is_rejected(tmp_path):
+    reordered_names = list(reversed(FEATURE_NAMES))
+    save_synthetic_bundle(tmp_path, reordered_names)
+
+    with pytest.raises(ValueError, match="feature order does not match"):
+        URLPredictor.from_pretrained(tmp_path)
