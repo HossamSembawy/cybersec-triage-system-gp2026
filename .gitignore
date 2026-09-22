@@ -1,53 +1,20 @@
-*.csv
-*.zip
-*.7z
-data/
 datasets/
+/models/
 
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-.Python
-*.egg-info/
-dist/
-build/
-*.egg
 
 venv/
-.venv/
-env/
-.env
-
-.env
-.env.local
 *.env
 
-.ipynb_checkpoints/
-*.ipynb_checkpoints
+.pytest_cache/
+pytest-temp-*/
 
-*.bin
-.cache/
-huggingface/
-
-.vscode/
-.idea/
-*.swp
-*.swo
-
-.DS_Store
-Thumbs.db
-desktop.ini
-
-*.log
 logs/
-
-.docker
-/models/
+triage reports/
 
 node_modules/
+dist/
 
 latex report/
 ppt/
-
-CLAUDE.md
