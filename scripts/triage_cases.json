@@ -1,0 +1,16 @@
+[
+  {
+    "id": "benign_control",
+    "description": "Synthetic routine email and URL with a saved benign network flow",
+    "email": "Hi team, the project meeting is scheduled for Tuesday at 10:00. The agenda is in the shared calendar. Thanks.",
+    "url": "https://www.example.com/about",
+    "network_file": "models/network_module/network_benign_request.json"
+  },
+  {
+    "id": "mixed_signals",
+    "description": "Synthetic urgent email and suspicious URL with a saved attack flow; these inputs are not a real linked incident",
+    "email": "Urgent: your account will be suspended today. Verify your credentials at http://paypa1-secure-login.com/verify?id=1 to restore access.",
+    "url": "http://paypa1-secure-login.com/verify?id=1",
+    "network_file": "models/network_module/network_attack_request.json"
+  }
+]
