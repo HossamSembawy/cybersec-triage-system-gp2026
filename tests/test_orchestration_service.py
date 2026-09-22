@@ -68,6 +68,18 @@ def test_service_sends_only_structured_detection_results():
     assert client.messages.parse_arguments["output_format"] is TriageDecision
 
 
+def test_service_instructs_claude_not_to_invent_cross_module_links():
+    client = StubClaudeClient(build_decision())
+    service = OrchestrationService(client)
+
+    service.analyze(build_email_request())
+
+    system_prompt = client.messages.parse_arguments["system"]
+    assert "independent observations" in system_prompt
+    assert "attack chain" in system_prompt
+    assert "normalized anomaly score" in system_prompt
+
+
 def test_service_rejects_module_that_was_not_supplied():
     decision = build_decision(modules=["email", "network"])
     service = OrchestrationService(StubClaudeClient(decision))
