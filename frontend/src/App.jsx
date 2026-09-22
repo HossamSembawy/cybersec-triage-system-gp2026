@@ -78,7 +78,11 @@ function Finding({ detector, result }) {
   const score = detector.name === "email" ? result.phishing_probability
     : detector.name === "url" ? result.malicious_probability
     : result.anomaly_probability;
-  const scoreLabel = detector.name === "network" ? "Anomaly score" : "Threat probability";
+  // The network value is a normalized anomaly score, not a probability,
+  // so it is shown on a 0-1 scale rather than as a percentage.
+  const isNetwork = detector.name === "network";
+  const scoreLabel = isNetwork ? "Anomaly score" : "Threat probability";
+  const scoreText = isNetwork ? score.toFixed(2) : `${Math.round(score * 100)}%`;
   const Icon = detector.Icon;
 
   return (
@@ -89,7 +93,7 @@ function Finding({ detector, result }) {
         <span>{result.prediction} <span className="separator">/</span> {result.model_version}</span>
       </div>
       <div className="finding-score">
-        <strong>{Math.round(score * 100)}%</strong>
+        <strong>{scoreText}</strong>
         <span>{scoreLabel}</span>
       </div>
       <span className={`severity-tag ${result.severity.toLowerCase()}`}>{result.severity}</span>
@@ -266,7 +270,7 @@ function App() {
             {runState === "running" && <div className="empty-state"><LoaderCircle size={26} className="spin" /><h3>Analyzing incident</h3></div>}
             {report && runState === "done" && <>
               <div className="summary-band"><div><span className="result-label">OVERALL SEVERITY</span><strong className={`overall-severity ${report.triage?.severity?.toLowerCase() || ""}`}>{report.triage?.severity || "Incomplete"}</strong></div><span className="module-count">{detectorCount} detector{detectorCount === 1 ? "" : "s"} completed</span></div>
-              {report.triage && <div className="triage-content"><div className="result-block"><h3>Evidence summary</h3><p>{report.triage.evidence_summary}</p></div><div className="result-block"><h3>Analyst recommendation</h3><p>{report.triage.analyst_recommendation}</p></div></div>}
+              {report.triage && <div className="triage-content"><div className="result-block"><h3>Evidence summary</h3><p>{report.triage.evidence_summary}</p></div><div className="result-block"><h3>Analyst recommendation</h3><p>{report.triage.analyst_recommendation}</p></div><div className="result-block"><h3>Based on</h3><div className="module-tags">{DETECTORS.filter((detector) => report.triage.contributing_modules.includes(detector.name)).map((detector) => <span key={detector.name} className="module-tag"><detector.Icon size={13} />{detector.label}</span>)}</div></div></div>}
               {report.triage_error && <div className="notice" role="status"><CircleAlert size={17} /><span>Combined triage unavailable: {report.triage_error}</span></div>}
               <div className="findings-heading"><h3>Detector findings</h3><span>{detectorCount} result{detectorCount === 1 ? "" : "s"}</span></div>
               <div className="findings">{DETECTORS.filter((detector) => report.detections[detector.name]).map((detector) => <Finding key={detector.name} detector={detector} result={report.detections[detector.name]} />)}</div>
