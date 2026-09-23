@@ -214,7 +214,7 @@ function App() {
       <aside className="sidebar">
         <div className="brand">
           <div className="brand-mark"><Activity size={19} strokeWidth={2.2} /></div>
-          <div className="brand-name"><strong>Cybersec Triage</strong><span>Analyst workspace</span></div>
+          <div className="brand-name"><strong>Cybersec Triage</strong><span>CM3020 final project</span></div>
         </div>
         <nav aria-label="Primary navigation">
           <a className="nav-link active" href="/" aria-current="page"><ScanSearch size={17} />Analyze</a>
@@ -228,24 +228,24 @@ function App() {
 
       <main className="main">
         <header className="page-header">
-          <div><p className="eyebrow">ANALYSIS WORKSPACE</p><h1>Threat triage</h1></div>
+          <h1>Threat triage</h1>
           <span className="header-meta">Email <i>/</i> URL <i>/</i> Network</span>
         </header>
 
         <div className="workspace">
           <section className="input-pane" aria-labelledby="input-heading">
-            <div className="section-heading"><div><p className="section-index">01 / INPUT</p><h2 id="input-heading">Threat artifacts</h2></div></div>
+            <div className="section-heading"><h2 id="input-heading">Threat artifacts</h2></div>
             <form onSubmit={analyzeIncident} noValidate>
               <div className="input-group">
-                <label className="field-label" htmlFor="email-text"><span className="field-icon"><Mail size={15} /></span>Email text</label>
+                <label className="field-label" htmlFor="email-text">Email text</label>
                 <textarea id="email-text" rows="6" maxLength="50000" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Paste the email content" />
               </div>
               <div className="input-group">
-                <label className="field-label" htmlFor="url-input"><span className="field-icon"><Link2 size={15} /></span>URL</label>
+                <label className="field-label" htmlFor="url-input">URL</label>
                 <input id="url-input" type="text" maxLength="2048" inputMode="url" autoComplete="off" value={url} onChange={(event) => setUrl(event.target.value)} placeholder="https://example.com/path" />
               </div>
               <div className="input-group">
-                <label className="field-label" htmlFor="network-json"><span className="field-icon"><Network size={15} /></span>Network flow JSON</label>
+                <label className="field-label" htmlFor="network-json">Network flow JSON</label>
                 <textarea id="network-json" className="json-input" rows="6" spellCheck="false" value={networkFlow} onChange={(event) => setNetworkFlow(event.target.value)} placeholder="Paste a network flow or select a JSON file" />
                 <div className="file-row">
                   <label className="file-control" htmlFor="network-file"><Upload size={14} />Choose JSON file</label>
@@ -265,7 +265,7 @@ function App() {
           </section>
 
           <section className="result-pane" aria-labelledby="result-heading" aria-live="polite">
-            <div className="section-heading"><div><p className="section-index">02 / OUTPUT</p><h2 id="result-heading">Triage report</h2></div><span className="run-state">{resultState}</span></div>
+            <div className="section-heading"><h2 id="result-heading">Triage report</h2><span className="run-state">{resultState}</span></div>
             {!report && runState !== "running" && <div className="empty-state"><div className="empty-mark"><ScanSearch size={25} strokeWidth={1.4} /></div><h3>No analysis yet</h3><p>Results will appear here after an incident is analyzed.</p></div>}
             {runState === "running" && <div className="empty-state"><LoaderCircle size={26} className="spin" /><h3>Analyzing incident</h3></div>}
             {report && runState === "done" && <>
