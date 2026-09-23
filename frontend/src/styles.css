@@ -29,7 +29,7 @@ button { cursor: pointer; }
 
 .main { min-width: 0; }
 .page-header { display: flex; justify-content: space-between; align-items: end; gap: 15px; min-height: 112px; padding: 23px clamp(24px, 4vw, 54px); background: #fff; border-bottom: 1px solid #dde6e0; }
-.eyebrow, .section-index, .result-label { margin: 0 0 8px; font-size: 11px; font-weight: 800; letter-spacing: 1.2px; color: #667d72; }
+.result-label { margin: 0 0 8px; font-size: 11px; font-weight: 800; letter-spacing: 1.2px; color: #667d72; }
 h1, h2, h3, p { margin-top: 0; }
 h1 { margin-bottom: 0; font-size: 30px; line-height: 1.1; font-weight: 750; }
 .header-meta { font-size: 13px; color: #82948a; white-space: nowrap; padding-bottom: 3px; }
@@ -37,13 +37,11 @@ h1 { margin-bottom: 0; font-size: 30px; line-height: 1.1; font-weight: 750; }
 .workspace { max-width: 1550px; padding: 34px clamp(24px, 4vw, 54px) 50px; display: grid; grid-template-columns: minmax(320px, .93fr) minmax(410px, 1.07fr); gap: clamp(30px, 4vw, 64px); }
 .input-pane, .result-pane { min-width: 0; }
 .section-heading { min-height: 70px; display: flex; justify-content: space-between; align-items: start; gap: 12px; border-bottom: 1px solid #cbdcd1; margin-bottom: 22px; }
-.section-index { color: #258b6b; }
 h2 { font-size: 19px; line-height: 1.2; font-weight: 720; margin-bottom: 17px; }
 .run-state { color: #70867a; font-size: 12px; font-weight: 650; white-space: nowrap; margin-top: 4px; }
 
 .input-group { margin-bottom: 24px; }
 .field-label { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 750; margin-bottom: 10px; }
-.field-icon { display: grid; place-items: center; width: 24px; height: 24px; background: #dcefe5; color: #226f55; border-radius: 3px; }
 textarea, input[type="text"] { display: block; width: 100%; border: 1px solid #cadbd0; background: #fff; border-radius: 4px; color: #1d3027; outline: none; padding: 12px 13px; font-size: 14px; line-height: 1.5; }
 textarea { resize: vertical; min-height: 115px; }
 .json-input { font: 13px/1.5 Consolas, "Courier New", monospace; }
